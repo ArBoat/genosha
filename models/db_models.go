@@ -1,7 +1,6 @@
 package models
 
 import (
-	"genosha/db"
 	"github.com/jinzhu/gorm"
 	"log"
 )
@@ -31,10 +30,10 @@ type (
 
 func init() {
 	log.Println("coming to models")
-	db.Pg.DB().SetMaxIdleConns(5)
-	db.Pg.DB().SetMaxOpenConns(15)
-	db.Pg.AutoMigrate(&User{})
-	db.Pg.AutoMigrate(&Role{})
-	db.Pg.AutoMigrate(&UserToRole{})
-	db.Pg.Model(&UserToRole{}).AddForeignKey("role", "roles(name)", "CASCADE", "CASCADE")
+	//db.Pg.DB().SetMaxIdleConns(5)
+	//db.Pg.DB().SetMaxOpenConns(15)
+	//db.Pg.AutoMigrate(&User{})
+	//db.Pg.AutoMigrate(&Role{})
+	//db.Pg.AutoMigrate(&UserToRole{})
+	//db.Pg.Model(&UserToRole{}).AddForeignKey("role", "roles(name)", "CASCADE", "CASCADE")
 }

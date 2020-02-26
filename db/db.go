@@ -11,7 +11,7 @@ import (
 var Pg *gorm.DB
 
 func init() {
-  Pg = createDBHandler()
+  //Pg = createDBHandler()
 }
 
 func createDBHandler() *gorm.DB {
