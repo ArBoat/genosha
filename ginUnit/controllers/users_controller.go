@@ -3,6 +3,7 @@ package controllers
 import (
 	"fmt"
 	"genosha/dao"
+	"genosha/ginUnit"
 	"genosha/models"
 	"genosha/utils/confs"
 	"genosha/utils/myLogger"
@@ -194,7 +195,7 @@ func (uc UsersController) ValidateUser(userEmail string, password string) bool {
 }
 
 func (uc UsersController) GetUserInfo(c *gin.Context) {
-	userGuid := parseUserGuidFromRequest(c)
+	userGuid := ginUnit.parseUserGuidFromRequest(c)
 	userInfo := dao.GetUserByGuid(userGuid)
 	c.JSON(http.StatusOK, gin.H{
 		"userName":   userInfo.Name,
@@ -204,7 +205,7 @@ func (uc UsersController) GetUserInfo(c *gin.Context) {
 }
 
 func (uc UsersController) ChangePassWord(c *gin.Context) {
-	userGuid := parseUserGuidFromRequest(c)
+	userGuid := ginUnit.parseUserGuidFromRequest(c)
 	var changePassWD models.ChangePassWD
 	if err := c.ShouldBindJSON(&changePassWD); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
