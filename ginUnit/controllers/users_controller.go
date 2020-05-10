@@ -3,12 +3,11 @@ package controllers
 import (
 	"fmt"
 	"genosha/dao"
-	"genosha/ginUnit"
 	"genosha/models"
 	"genosha/utils/confs"
 	"genosha/utils/myLogger"
 	"genosha/utils/tools"
-	jwt "github.com/appleboy/gin-jwt"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/casbin/casbin"
 	"github.com/gin-gonic/gin"
 	"github.com/sendgrid/sendgrid-go"
@@ -62,8 +61,8 @@ var Auth = &jwt.GinJWTMiddleware{
 		})
 	},
 	// user validatoin control
-	Authenticator: func(userId string, password string, c *gin.Context) (interface{}, bool) {
-		return userId, usersController.ValidateUser(userId, password)
+	Authenticator: func( c *gin.Context) (interface{}, error) {
+		return nil,nil
 	},
 	// permission control
 	Authorizator: func(userId interface{}, c *gin.Context) bool {
@@ -195,7 +194,7 @@ func (uc UsersController) ValidateUser(userEmail string, password string) bool {
 }
 
 func (uc UsersController) GetUserInfo(c *gin.Context) {
-	userGuid := ginUnit.parseUserGuidFromRequest(c)
+	userGuid := parseUserGuidFromRequest(c)
 	userInfo := dao.GetUserByGuid(userGuid)
 	c.JSON(http.StatusOK, gin.H{
 		"userName":   userInfo.Name,
@@ -205,7 +204,7 @@ func (uc UsersController) GetUserInfo(c *gin.Context) {
 }
 
 func (uc UsersController) ChangePassWord(c *gin.Context) {
-	userGuid := ginUnit.parseUserGuidFromRequest(c)
+	userGuid := parseUserGuidFromRequest(c)
 	var changePassWD models.ChangePassWD
 	if err := c.ShouldBindJSON(&changePassWD); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
