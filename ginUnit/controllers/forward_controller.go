@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"bytes"
-	"genosha/ginUnit"
 	"genosha/utils/confs"
 	"genosha/utils/myLogger"
 	"github.com/gin-gonic/gin"
@@ -29,7 +28,7 @@ func (fc ForwardController) GetSimpleForward(c *gin.Context) {
 		sUrl = rPath
 		rqUrl = confs.ConfigMap["server_url"] + sUrl + `?`
 	}
-	paras, err := ginUnit.keySign(c, "GET", nil, sUrl)
+	paras, err := keySign(c, "GET", nil, sUrl)
 	if err != nil {
 		myLogger.Log.Error("error", zap.Any("err", err))
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -66,7 +65,7 @@ func (fc ForwardController) GetSimpleForward(c *gin.Context) {
 		return
 	}
 	myLogger.Log.Info("resp.Body:" + string(body))
-	ginUnit.handleResp(resp, c, body, resp.Header)
+	handleResp(resp, c, body, resp.Header)
 }
 
 func (fc ForwardController) PostSimpleForward(c *gin.Context) {
@@ -78,7 +77,7 @@ func (fc ForwardController) PostSimpleForward(c *gin.Context) {
 	myLogger.Log.Info("requestBody" + string(rBodyByte))
 	sUrl = rPath
 	rqUrl = confs.ConfigMap["server_url"] + sUrl + `?`
-	paras, err := ginUnit.keySign(c, "POST", rBodyByte, sUrl)
+	paras, err := keySign(c, "POST", rBodyByte, sUrl)
 	if err != nil {
 		myLogger.Log.Error("error", zap.Any("err", err))
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -114,7 +113,7 @@ func (fc ForwardController) PostSimpleForward(c *gin.Context) {
 		return
 	}
 	myLogger.Log.Info("resp.Body:" + string(body))
-	ginUnit.handleResp(resp, c, body, resp.Header)
+	handleResp(resp, c, body, resp.Header)
 }
 
 func (fc ForwardController) DeleteSimpleForward(c *gin.Context) {
@@ -122,7 +121,7 @@ func (fc ForwardController) DeleteSimpleForward(c *gin.Context) {
 	rPath := c.Request.URL.Path
 	sUrl = rPath
 	rqUrl = confs.ConfigMap["server_url"] + sUrl + `?`
-	paras, err := ginUnit.keySign(c, "DELETE", nil, sUrl)
+	paras, err := keySign(c, "DELETE", nil, sUrl)
 	if err != nil {
 		myLogger.Log.Error("error", zap.Any("err", err))
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -161,7 +160,7 @@ func (fc ForwardController) DeleteSimpleForward(c *gin.Context) {
 		return
 	}
 	myLogger.Log.Info("resp.Body:" + string(body))
-	ginUnit.handleResp(resp, c, body, resp.Header)
+	handleResp(resp, c, body, resp.Header)
 }
 
 func sevenDayString(from string) string {

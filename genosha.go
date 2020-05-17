@@ -1,8 +1,7 @@
 package main
 
 import (
-	"genosha/ginUnit"
-	"genosha/utils/confs"
+	"genosha/collyUnit"
 	"genosha/utils/myLogger"
 	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
@@ -11,27 +10,28 @@ import (
 	"time"
 )
 
-var ginFile *rotatelogs.RotateLogs
-var router  *gin.Engine
+var logFile *rotatelogs.RotateLogs
+//var router  *gin.Engine
 
 func init() {
-	ginFile, _ = rotatelogs.New(
+	logFile, _ = rotatelogs.New(
 		"./log/log.%Y-%m-%d-%H-%M",
 		rotatelogs.WithMaxAge(30*24*time.Hour),
 		rotatelogs.WithRotationTime(24*time.Hour),
 	)
 	gin.DisableConsoleColor()
-	log.SetOutput(ginFile)
+	log.SetOutput(logFile)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
-	myLogger.MyLogInit(ginFile)
-	router = ginUnit.RouterInit(ginFile)
+	myLogger.MyLogInit(logFile)
+	//router = ginUnit.RouterInit(logFile)
 }
 
 func main() {
 	myLogger.Log.Info("====== server to listen")
-	err := router.Run(confs.FlagSericePort)
-	if err != nil {
-		myLogger.Log.Info("====== server fail to run")
-	}
+	//err := router.Run(confs.FlagSericePort)
+	//if err != nil {
+	//	myLogger.Log.Info("====== server fail to run")
+	//}
+	collyUnit.CollyInit()
 	myLogger.Log.Info("====== server to listen done")
 }
