@@ -9,7 +9,6 @@ require (
 	github.com/appleboy/gin-jwt v2.4.0+incompatible
 	github.com/appleboy/gin-jwt/v2 v2.6.3
 	github.com/casbin/casbin v1.9.1
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-contrib/sse v0.1.0 // indirect

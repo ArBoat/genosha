@@ -12,7 +12,7 @@ func init() {
 }
 
 func createRedisHandler() redis.Conn {
-	c, err := redis.Dial("tcp", "127.0.0.1:6379")
+	c, err := redis.Dial("tcp", "127.0.0.1:6379",redis.DialDatabase(9))
 	if err != nil {
 		myLogger.Log.Error("Connect to redis error", zap.Error(err))
 		return nil
