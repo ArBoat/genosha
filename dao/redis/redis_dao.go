@@ -41,3 +41,16 @@ func testRedis(){
 	myLogger.Log.Info(imapGet["username"])
 	myLogger.Log.Info(imapGet["phonenumber"])
 }
+
+func RedisKeyExist(key string) (bool, error) {
+	exists, err := redis.Bool(c.Do("EXISTS", key))
+	return exists, err
+}
+func RedisGetKey(key string) (string, error) {
+	v, err := redis.String(c.Do("GET", key))
+	return v, err
+}
+func RedisSetKeyWithExpireTime (key,value,secondSting string) error {
+	_, err := c.Do("SET", key, value, "EX", secondSting)
+	return err
+}
