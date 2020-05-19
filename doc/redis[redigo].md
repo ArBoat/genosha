@@ -16,3 +16,6 @@ receive
 pipeline: effective(10 times fast) , not acid
 
 transactions: acid， slow
+
+### RDB AOF
+config
