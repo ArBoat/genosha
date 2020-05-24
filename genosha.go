@@ -11,6 +11,7 @@ import (
 )
 
 var logFile *rotatelogs.RotateLogs
+
 //var router  *gin.Engine
 
 func init() {
@@ -32,6 +33,8 @@ func main() {
 	//if err != nil {
 	//	myLogger.Log.Info("====== server fail to run")
 	//}
-	collyUnit.CollyInit()
+	//collyUnit.CollyInit()
+	//crawler.Douban250()
+	collyUnit.CollyRun()
 	myLogger.Log.Info("====== server to listen done")
 }

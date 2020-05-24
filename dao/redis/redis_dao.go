@@ -8,13 +8,13 @@ import (
 	"go.uber.org/zap"
 )
 
-var c  = db.Redis
+var c = db.Redis
 
 func init() {
 	//testRedis()
 }
 
-func testRedis(){
+func testRedis() {
 	key := "profile"
 	imap := map[string]string{"username": "666", "phonenumber": "888"}
 	value, _ := json.Marshal(imap)
@@ -50,7 +50,7 @@ func RedisGetKey(key string) (string, error) {
 	v, err := redis.String(c.Do("GET", key))
 	return v, err
 }
-func RedisSetKeyWithExpireTime (key,value,secondSting string) error {
+func RedisSetKeyWithExpireTime(key, value, secondSting string) error {
 	_, err := c.Do("SET", key, value, "EX", secondSting)
 	return err
 }

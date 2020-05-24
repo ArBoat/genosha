@@ -8,15 +8,13 @@ import (
 
 var localPG = db.Pg
 
-
-
 func CreateNewUser(u *models.User) error {
 	return localPG.Create(u).Error
 }
 
 func UpdateUserByGuid(guid, name string) error {
 	var user models.User
-	return localPG.Model(&user).Where("guid = ?", guid).Updates(models.User{Name:name}).Error
+	return localPG.Model(&user).Where("guid = ?", guid).Updates(models.User{Name: name}).Error
 }
 
 func GetUserByGuid(userGuid string) *models.User {

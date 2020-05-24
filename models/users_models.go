@@ -2,19 +2,19 @@ package models
 
 type (
 	Signup struct {
-		UserName  string `json:"userName" binding:"required"`
-		Email     string `json:"email" binding:"required"`
-		Roles     string `json:"roles" binding:"required"`
-		Spell     string `json:"spell" binding:"required"`
-		TimeZone  int    `json:"timeZone"`
+		UserName string `json:"userName" binding:"required"`
+		Email    string `json:"email" binding:"required"`
+		Roles    string `json:"roles" binding:"required"`
+		Spell    string `json:"spell" binding:"required"`
+		TimeZone int    `json:"timeZone"`
 	}
 	Sign2Back struct {
 		Name  string `json:"name"`
 		Email string `json:"email"`
 	}
 	Sign2BackResp struct {
-		Name     string `json:"name"`
-		Email    string `json:"email"`
+		Name  string `json:"name"`
+		Email string `json:"email"`
 	}
 	ChangePassWD struct {
 		UserEmail   string `json:"userEmail" binding:"required"`
@@ -37,4 +37,3 @@ type (
 		Msg  string `json:"msg"`
 	}
 )
-

@@ -107,4 +107,3 @@ func handleResp(resp *http.Response, c *gin.Context, body []byte, header http.He
 	}
 	c.Writer.Write(body)
 }
-

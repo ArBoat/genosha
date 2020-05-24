@@ -52,8 +52,7 @@ var Auth = &jwt.GinJWTMiddleware{
 			"token":  token,
 		})
 	},
-	RefreshResponse:
-	func(c *gin.Context, code int, token string, expire time.Time) {
+	RefreshResponse: func(c *gin.Context, code int, token string, expire time.Time) {
 		c.JSON(code, gin.H{
 			"code":   code,
 			"expire": (expire.UnixNano()) / 1e6,
@@ -61,8 +60,8 @@ var Auth = &jwt.GinJWTMiddleware{
 		})
 	},
 	// user validatoin control
-	Authenticator: func( c *gin.Context) (interface{}, error) {
-		return nil,nil
+	Authenticator: func(c *gin.Context) (interface{}, error) {
+		return nil, nil
 	},
 	// permission control
 	Authorizator: func(userId interface{}, c *gin.Context) bool {
@@ -98,8 +97,8 @@ var Auth = &jwt.GinJWTMiddleware{
 	},
 	Unauthorized: func(c *gin.Context, code int, message string) {
 		c.JSON(401, gin.H{
-			"code":    4101,
-			"msg": message,
+			"code": 4101,
+			"msg":  message,
 		})
 		myLogger.Log.Warn("acl validation fail!")
 	},
@@ -197,9 +196,9 @@ func (uc UsersController) GetUserInfo(c *gin.Context) {
 	userGuid := parseUserGuidFromRequest(c)
 	userInfo := dao.GetUserByGuid(userGuid)
 	c.JSON(http.StatusOK, gin.H{
-		"userName":   userInfo.Name,
-		"email":      userInfo.Email,
-		"roles":      dao.GetUserRolesByGuid(userGuid),
+		"userName": userInfo.Name,
+		"email":    userInfo.Email,
+		"roles":    dao.GetUserRolesByGuid(userGuid),
 	})
 }
 
@@ -373,16 +372,16 @@ func (uc UsersController) ResetPassWord(c *gin.Context) {
 	updateTime30min := existedUser.UpdatedAt.Add(30 * time.Minute).Format("2006-01-02 15:04:05")
 	if currentTime > updateTime30min {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":       "verification token is expired",
-			"code":      4005,
+			"msg":  "verification token is expired",
+			"code": 4005,
 		})
 		myLogger.Log.Error("error:" + "verification token is expired")
 		return
 	}
 	if existedUser.Token != requestBody.Token {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"msg":       "verification token is incorrect",
-			"code":      4006,
+			"msg":  "verification token is incorrect",
+			"code": 4006,
 		})
 		myLogger.Log.Error("error:" + "verification token is incorrect")
 		return

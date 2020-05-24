@@ -1,4 +1,5 @@
 package db
+
 import (
 	"context"
 	"fmt"
@@ -8,6 +9,7 @@ import (
 )
 
 var MongoDB *mongo.Client
+
 func init() {
 	MongoDB = createMongodbHandler()
 }

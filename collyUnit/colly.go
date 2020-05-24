@@ -1,39 +1,74 @@
 package collyUnit
 
 import (
+	"cloud.google.com/go/storage"
 	"genosha/utils/myLogger"
 	"github.com/gocolly/colly"
+	"go.uber.org/zap"
 	"math/rand"
+	"strings"
+	"time"
 )
 
-func CollyInit()  {
+func CollyRun() {
+	start := time.Now()
 	c := colly.NewCollector(
-		// Visit only domains: hackerspaces.org, wiki.hackerspaces.org
-		//colly.AllowedDomains("hackerspaces.org", "wiki.hackerspaces.org"),
+		colly.Async(true),
+		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) " +
+			"AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"),
 	)
+	c.Limit(&colly.LimitRule{DomainGlob:  "*.douban.*", Parallelism: 5})
 
+	//// create the redis storage
+	//storage := &redisstorage.Storage{
+	//	Address:  "127.0.0.1:6379",
+	//	Password: "",
+	//	DB:       0,
+	//	Prefix:   "douban250",
+	//}
+	//
+	//// add storage to the collector
+	//err := c.SetStorage(storage)
+	//if err != nil {
+	//	panic(err)
+	//}
+	//// delete previous data from storage
+	//if err := storage.Clear(); err != nil {
+	//	myLogger.Log.Info("error", zap.Any("error", err))
+	//}
+
+	// close redis client
+	defer storage.Client.Close()
+
+	c.OnError(func(_ *colly.Response, err error) {
+		myLogger.Log.Info("error", zap.Any("error", err))
+	})
 	c.OnRequest(func(r *colly.Request) {
-		r.Headers.Set("User-Agent", RandomString())
+		myLogger.Log.Info("Visiting", zap.Any("url", r.URL))
+		//r.Headers.Set("User-Agent", RandomString())
 	})
 
 	// On every a element which has href attribute call callback
-	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-		link := e.Attr("href")
-		// Print link
-		myLogger.Log.Info("Link found: " + e.Text+  "->" +link)
-		// Visit link found on page
-		// Only those links are visited which are in AllowedDomains
-		c.Visit(e.Request.AbsoluteURL(link))
+	c.OnHTML(".hd", func(e *colly.HTMLElement) {
+		movieUrl:=e.ChildAttr("a", "href")
+		id:= strings.Split(movieUrl, "/")[4]
+		title:=strings.TrimSpace(e.DOM.Find("span.title").Eq(0).Text())
+		myLogger.Log.Info("id",zap.String("doubanID",id))
+		myLogger.Log.Info("title",zap.String("title",title))
 	})
-
-	// Before making a request print "Visiting ..."
-	c.OnRequest(func(r *colly.Request) {
-		myLogger.Log.Info("Visiting:" + r.URL.String())
+	c.OnHTML(".paginator a", func(e *colly.HTMLElement) {
+		e.Request.Visit(e.Attr("href"))
 	})
+	c.OnScraped(func(r *colly.Response) {
+		myLogger.Log.Info("finished")
+	})
+	c.Visit("https://movie.douban.com/top250?start=0&filter=")
 
-	// Start scraping on https://hackerspaces.org
-	c.Visit("https://www.baidu.com/")
+	c.Wait()
+	took := time.Since(start)
+	myLogger.Log.Info("Took",zap.Any("Took",took))
 }
+
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 func RandomString() string {
