@@ -2,7 +2,10 @@ package main
 
 import (
 	"genosha/collyUnit"
+	"genosha/ginUnit"
+	"genosha/utils/confs"
 	"genosha/utils/myLogger"
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	_ "github.com/lib/pq"
@@ -12,7 +15,7 @@ import (
 
 var logFile *rotatelogs.RotateLogs
 
-//var router  *gin.Engine
+var router  *gin.Engine
 
 func init() {
 	logFile, _ = rotatelogs.New(
@@ -24,15 +27,16 @@ func init() {
 	log.SetOutput(logFile)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	myLogger.MyLogInit(logFile)
-	//router = ginUnit.RouterInit(logFile)
+	router = ginUnit.RouterInit(logFile)
 }
 
 func main() {
 	myLogger.Log.Info("====== server to listen")
-	//err := router.Run(confs.FlagSericePort)
-	//if err != nil {
-	//	myLogger.Log.Info("====== server fail to run")
-	//}
+	pprof.Register(router)
+	err := router.Run(confs.FlagSericePort)
+	if err != nil {
+		myLogger.Log.Info("====== server fail to run")
+	}
 	//collyUnit.CollyInit()
 	//crawler.Douban250()
 	collyUnit.CollyRun()

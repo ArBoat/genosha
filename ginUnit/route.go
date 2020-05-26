@@ -36,6 +36,7 @@ func RouterInit(path io.Writer) *gin.Engine {
 			)
 		},
 	}
+	gin.SetMode(gin.DebugMode)
 	router := gin.New()
 	router.Use(gin.LoggerWithConfig(l))
 	router.Use(gin.Recovery())

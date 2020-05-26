@@ -1,7 +1,6 @@
 package collyUnit
 
 import (
-	"cloud.google.com/go/storage"
 	"genosha/utils/myLogger"
 	"github.com/gocolly/colly"
 	"go.uber.org/zap"
@@ -38,7 +37,7 @@ func CollyRun() {
 	//}
 
 	// close redis client
-	defer storage.Client.Close()
+	//defer storage.Client.Close()
 
 	c.OnError(func(_ *colly.Response, err error) {
 		myLogger.Log.Info("error", zap.Any("error", err))

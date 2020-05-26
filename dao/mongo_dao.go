@@ -13,7 +13,7 @@ import (
 var mdb = db.MongoDB
 
 func init() {
-	testMongoDB()
+	//testMongoDB()
 }
 
 type Trainer struct {

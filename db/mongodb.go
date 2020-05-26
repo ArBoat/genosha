@@ -11,7 +11,7 @@ import (
 var MongoDB *mongo.Client
 
 func init() {
-	MongoDB = createMongodbHandler()
+	//MongoDB = createMongodbHandler()
 }
 
 func createMongodbHandler() *mongo.Client {
