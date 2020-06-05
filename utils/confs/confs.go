@@ -57,7 +57,7 @@ func GetEnv() string {
 	} else if env == "test" {
 		config = "./configure_docker/config_test.conf"
 	} else {
-		config = "./configure/config.conf"
+		config = "../configure/config.conf"
 	}
 	return config
 }
