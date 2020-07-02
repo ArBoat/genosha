@@ -3,7 +3,7 @@ module genosha
 go 1.12
 
 require (
-	cloud.google.com/go v0.37.4
+	cloud.google.com/go v0.46.3
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/antchfx/htmlquery v1.2.3 // indirect
 	github.com/antchfx/xmlquery v1.2.4 // indirect
@@ -19,7 +19,7 @@ require (
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/gocolly/colly v1.2.0
 	github.com/gocolly/redisstorage v0.0.0-20190812112800-1745c5e6d0ba
-	github.com/golang/mock v1.2.0
+	github.com/golang/mock v1.3.1
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/jawher/mow.cli v1.1.0 // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
@@ -35,6 +35,7 @@ require (
 	github.com/sendgrid/rest v2.4.1+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.5.0+incompatible
 	github.com/smartystreets/goconvey v1.6.4
+	github.com/spf13/viper v1.7.0 // indirect
 	github.com/stretchr/testify v1.6.0
 	github.com/tebeka/strftime v0.1.4 // indirect
 	github.com/temoto/robotstxt v1.1.1 // indirect

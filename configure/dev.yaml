@@ -1,0 +1,18 @@
+gin:
+  maxTime: 12
+  port: :8080
+
+redis:
+  index: 1
+  network: tcp
+  address: 127.0.0.1:6379
+
+kafka:
+  consumerID: 1
+  topic: dev
+  group: dev
+  brokers:
+    - xxx:9092
+    - xxx:9092
+  minBytes: 1e3
+  maxBytes: 2e6
